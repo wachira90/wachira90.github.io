@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Base64 Encode / Decode (Text + Image)</title>
+    <style>
+      :root {
+        --bg: #0b1220;
+        --card: #111a2e;
+        --muted: #9fb0d0;
+        --text: #eaf0ff;
+        --accent: #4ea1ff;
+        --good: #31d07a;
+        --warn: #ffcc00;
+        --bad: #ff4d4f;
+        --border: rgba(255, 255, 255, 0.12);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial,
+          sans-serif;
+        background: radial-gradient(
+            1200px 600px at 10% 0%,
+            #182a4f 0%,
+            var(--bg) 50%
+          )
+          no-repeat;
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .wrap {
+        width: min(980px, 100%);
+      }
+      .title {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+      .title h1 {
+        margin: 0;
+        font-size: 22px;
+        letter-spacing: 0.3px;
+      }
+      .title .hint {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.04),
+          rgba(255, 255, 255, 0.02)
+        );
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 14px;
+      }
+      .tab {
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+        padding: 9px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: 0.15s transform ease, 0.15s background ease;
+      }
+      .tab:hover {
+        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .tab.active {
+        background: rgba(78, 161, 255, 0.2);
+        border-color: rgba(78, 161, 255, 0.35);
+        color: var(--text);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .section h2 {
+        font-size: 14px;
+        color: var(--muted);
+        margin: 0 0 10px;
+      }
+
+      .box {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+      }
+
+      textarea,
+      input[type="text"] {
+        width: 100%;
+        border: none;
+        outline: none;
+        background: rgba(0, 0, 0, 0.22);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 12px;
+        color: var(--text);
+        resize: vertical;
+        min-height: 160px;
+        font-size: 13.5px;
+        line-height: 1.4;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+      }
+
+      button {
+        border: none;
+        cursor: pointer;
+        border-radius: 10px;
+        padding: 10px 12px;
+        color: var(--text);
+        background: rgba(78, 161, 255, 0.2);
+        border: 1px solid rgba(78, 161, 255, 0.35);
+        transition: 0.15s transform ease, 0.15s background ease;
+        font-weight: 700;
+      }
+      button:hover {
+        transform: translateY(-1px);
+        background: rgba(78, 161, 255, 0.28);
+      }
+      button:active {
+        transform: translateY(0px);
+      }
+      .btn-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+      .btn-primary {
+        background: rgba(49, 208, 122, 0.18);
+        border-color: rgba(49, 208, 122, 0.35);
+      }
+      .btn-primary:hover {
+        background: rgba(49, 208, 122, 0.25);
+      }
+      .btn-warn {
+        background: rgba(255, 204, 0, 0.16);
+        border-color: rgba(255, 204, 0, 0.3);
+      }
+      .btn-warn:hover {
+        background: rgba(255, 204, 0, 0.22);
+      }
+      .btn-ghost {
+        background: rgba(255, 255, 255, 0.06);
+        border-color: var(--border);
+      }
+      .btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .note {
+        color: var(--muted);
+        font-size: 12.5px;
+        line-height: 1.5;
+        margin: 0;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 10px;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .preview {
+        width: 100%;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: rgba(0, 0, 0, 0.25);
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 240px;
+        overflow: hidden;
+      }
+      .preview img {
+        max-width: 100%;
+        max-height: 360px;
+        border-radius: 10px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 22px;
+        transform: translateX(-50%);
+        background: rgba(17, 26, 46, 0.95);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 999px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.18s ease, transform 0.18s ease;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-2px);
+      }
+
+      .file {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px dashed var(--border);
+        background: rgba(0, 0, 0, 0.18);
+        color: var(--muted);
+      }
+      .mini {
+        min-height: auto !important;
+        height: 44px;
+        resize: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="title">
+        <h1>Base64 Encode / Decode</h1>
+        <div class="hint">Text + Image • ไม่มีการส่งข้อมูลออกนอกเครื่อง</div>
+      </div>
+
+      <div class="card">
+        <div class="tabs">
+          <button class="tab active" id="tabText" type="button">Text</button>
+          <button class="tab" id="tabImage" type="button">Image</button>
+        </div>
+
+        <!-- TEXT MODE -->
+        <div id="panelText">
+          <div class="grid">
+            <div class="section">
+              <h2>Input (ข้อความ)</h2>
+              <textarea
+                id="textInput"
+                placeholder="พิมพ์ข้อความที่ต้องการ encode หรือใส่ Base64 เพื่อ decode..."
+              ></textarea>
+
+              <div class="btn-row">
+                <button id="btnTextEncode" class="btn-primary" type="button">
+                  Encode → Base64
+                </button>
+                <button id="btnTextDecode" class="btn-warn" type="button">
+                  Decode ← Base64
+                </button>
+                <button id="btnTextClear" class="btn-ghost" type="button">
+                  Clear
+                </button>
+              </div>
+
+              <div class="row">
+                <span class="pill">รองรับ UTF-8 (ไทย/อีโมจิ)</span>
+                <span class="pill" id="textStatus">—</span>
+              </div>
+            </div>
+
+            <div class="section">
+              <h2>Output</h2>
+              <textarea
+                id="textOutput"
+                class="mono"
+                placeholder="ผลลัพธ์จะออกมาที่นี่..."
+                readonly
+              ></textarea>
+
+              <div class="btn-row">
+                <button id="btnTextCopy" class="btn-ghost" type="button">
+                  Copy Output
+                </button>
+              </div>
+
+              <p class="note" style="margin-top: 10px">
+                Encode: แปลงข้อความ → Base64 (ไม่มี prefix) • Decode: แปลง
+                Base64 → ข้อความ
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- IMAGE MODE -->
+        <div id="panelImage" class="hidden">
+          <div class="grid">
+            <div class="section">
+              <h2>Input (รูปภาพ)</h2>
+              <input id="imgFile" class="file" type="file" accept="image/*" />
+
+              <div class="box" style="margin-top: 10px">
+                <p class="note">
+                  เลือกไฟล์ภาพเพื่อ Encode เป็น Base64 (Data URL) หรือวาง
+                  Base64/Data URL เพื่อ Decode แล้วแสดงภาพ
+                </p>
+              </div>
+
+              <h2 style="margin-top: 14px">Base64 / Data URL Input (Decode)</h2>
+              <textarea
+                id="imgBase64Input"
+                class="mono"
+                placeholder="วาง base64 (ไม่มี prefix) หรือ data:image/...;base64,...."
+              ></textarea>
+
+              <div class="btn-row">
+                <button id="btnImgEncode" class="btn-primary" type="button">
+                  Encode File → Base64
+                </button>
+                <button id="btnImgDecode" class="btn-warn" type="button">
+                  Decode → Preview
+                </button>
+                <button id="btnImgClear" class="btn-ghost" type="button">
+                  Clear
+                </button>
+              </div>
+
+              <div class="row">
+                <span class="pill" id="imgInfo">—</span>
+                <span class="pill" id="imgStatus">—</span>
+              </div>
+            </div>
+
+            <div class="section">
+              <h2>Output (Base64 Data URL)</h2>
+              <textarea
+                id="imgOutput"
+                class="mono"
+                placeholder="ผลลัพธ์ Base64/Data URL จะออกมาที่นี่..."
+                readonly
+              ></textarea>
+
+              <div class="btn-row">
+                <button id="btnImgCopy" class="btn-ghost" type="button">
+                  Copy Output
+                </button>
+                <button id="btnImgDownload" class="btn-ghost" type="button">
+                  Download Decoded Image
+                </button>
+              </div>
+
+              <h2 style="margin-top: 14px">Preview</h2>
+              <div class="preview">
+                <img id="imgPreview" alt="preview" class="hidden" />
+                <p id="imgPreviewHint" class="note" style="margin: 0">
+                  ยังไม่มีรูปให้แสดง
+                </p>
+              </div>
+
+              <p class="note" style="margin-top: 10px">
+                หมายเหตุ: Output ของรูปภาพจะเป็น
+                <span class="mono">data:image/...;base64,...</span>
+                (ใช้งานสะดวกกับเว็บ)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast">Done</div>
+
+    <script>
+      (() => {
+        const el = (id) => document.getElementById(id);
+
+        // Tabs
+        const tabText = el("tabText");
+        const tabImage = el("tabImage");
+        const panelText = el("panelText");
+        const panelImage = el("panelImage");
+
+        // Toast
+        const toastEl = el("toast");
+        function showToast(msg) {
+          toastEl.textContent = msg;
+          toastEl.classList.add("show");
+          setTimeout(() => toastEl.classList.remove("show"), 1200);
+        }
+
+        // ---------- TEXT: UTF-8 safe base64 ----------
+        const textInput = el("textInput");
+        const textOutput = el("textOutput");
+        const textStatus = el("textStatus");
+        const btnTextEncode = el("btnTextEncode");
+        const btnTextDecode = el("btnTextDecode");
+        const btnTextCopy = el("btnTextCopy");
+        const btnTextClear = el("btnTextClear");
+
+        function base64EncodeUtf8(str) {
+          const bytes = new TextEncoder().encode(str);
+          let binary = "";
+          const chunkSize = 0x8000; // avoid call stack limits
+          for (let i = 0; i < bytes.length; i += chunkSize) {
+            binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+          }
+          return btoa(binary);
+        }
+
+        function base64DecodeUtf8(b64) {
+          const binary = atob(b64);
+          const bytes = new Uint8Array(binary.length);
+          for (let i = 0; i < binary.length; i++)
+            bytes[i] = binary.charCodeAt(i);
+          return new TextDecoder().decode(bytes);
+        }
+
+        function looksLikeBase64(s) {
+          // loose check: base64 chars + padding, ignore whitespace
+          const t = s.trim().replace(/\s+/g, "");
+          if (!t) return false;
+          if (t.length % 4 !== 0) return false;
+          return /^[A-Za-z0-9+/]+={0,2}$/.test(t);
+        }
+
+        btnTextEncode.addEventListener("click", () => {
+          try {
+            const input = textInput.value ?? "";
+            const b64 = base64EncodeUtf8(input);
+            textOutput.value = b64;
+            textStatus.textContent = `Encoded • ${b64.length} chars`;
+            showToast("Encoded!");
+          } catch (e) {
+            textStatus.textContent = "Error";
+            showToast(e.message || "Encode error");
+          }
+        });
+
+        btnTextDecode.addEventListener("click", () => {
+          try {
+            const raw = textInput.value ?? "";
+            const b64 = raw.trim().replace(/\s+/g, "");
+            if (!looksLikeBase64(b64)) {
+              throw new Error(
+                "ข้อมูลไม่เหมือน Base64 (ตรวจสอบอักขระ/ความยาว/ padding = )"
+              );
+            }
+            const decoded = base64DecodeUtf8(b64);
+            textOutput.value = decoded;
+            textStatus.textContent = `Decoded • ${decoded.length} chars`;
+            showToast("Decoded!");
+          } catch (e) {
+            textStatus.textContent = "Error";
+            showToast(e.message || "Decode error");
+          }
+        });
+
+        btnTextCopy.addEventListener("click", async () => {
+          const v = textOutput.value;
+          if (!v) return showToast("Nothing to copy");
+          try {
+            await navigator.clipboard.writeText(v);
+            showToast("Copied!");
+          } catch {
+            textOutput.focus();
+            textOutput.select();
+            document.execCommand("copy");
+            showToast("Copied (fallback)!");
+          }
+        });
+
+        btnTextClear.addEventListener("click", () => {
+          textInput.value = "";
+          textOutput.value = "";
+          textStatus.textContent = "—";
+          showToast("Cleared");
+        });
+
+        // ---------- IMAGE ----------
+        const imgFile = el("imgFile");
+        const imgBase64Input = el("imgBase64Input");
+        const imgOutput = el("imgOutput");
+        const imgInfo = el("imgInfo");
+        const imgStatus = el("imgStatus");
+        const imgPreview = el("imgPreview");
+        const imgPreviewHint = el("imgPreviewHint");
+
+        const btnImgEncode = el("btnImgEncode");
+        const btnImgDecode = el("btnImgDecode");
+        const btnImgCopy = el("btnImgCopy");
+        const btnImgDownload = el("btnImgDownload");
+        const btnImgClear = el("btnImgClear");
+
+        let lastDecodedBlobUrl = null;
+
+        function setPreviewSrc(src) {
+          imgPreview.src = src;
+          imgPreview.classList.remove("hidden");
+          imgPreviewHint.classList.add("hidden");
+        }
+
+        function clearPreview() {
+          imgPreview.removeAttribute("src");
+          imgPreview.classList.add("hidden");
+          imgPreviewHint.classList.remove("hidden");
+          if (lastDecodedBlobUrl) {
+            URL.revokeObjectURL(lastDecodedBlobUrl);
+            lastDecodedBlobUrl = null;
+          }
+        }
+
+        function isDataUrl(s) {
+          return /^data:image\/[a-zA-Z0-9.+-]+;base64,/.test(s.trim());
+        }
+
+        function toDataUrlFromBareBase64(b64, mimeGuess = "image/png") {
+          return `data:${mimeGuess};base64,${b64}`;
+        }
+
+        function dataUrlToBlob(dataUrl) {
+          const [header, b64] = dataUrl.split(",", 2);
+          const mime =
+            (header.match(/^data:(.*?);base64$/) || [])[1] ||
+            "application/octet-stream";
+          const binary = atob(b64);
+          const bytes = new Uint8Array(binary.length);
+          for (let i = 0; i < binary.length; i++)
+            bytes[i] = binary.charCodeAt(i);
+          return new Blob([bytes], { type: mime });
+        }
+
+        imgFile.addEventListener("change", () => {
+          const f = imgFile.files?.[0];
+          if (!f) {
+            imgInfo.textContent = "—";
+            return;
+          }
+          imgInfo.textContent = `${f.name} • ${Math.round(
+            f.size / 1024
+          )} KB • ${f.type || "unknown"}`;
+        });
+
+        btnImgEncode.addEventListener("click", () => {
+          const f = imgFile.files?.[0];
+          if (!f) return showToast("เลือกไฟล์รูปก่อน");
+
+          const reader = new FileReader();
+          reader.onload = () => {
+            const dataUrl = String(reader.result || "");
+            imgOutput.value = dataUrl;
+            imgStatus.textContent = `Encoded • ${dataUrl.length} chars`;
+            setPreviewSrc(dataUrl);
+            showToast("Encoded!");
+          };
+          reader.onerror = () => {
+            imgStatus.textContent = "Error";
+            showToast("อ่านไฟล์ไม่สำเร็จ");
+          };
+          reader.readAsDataURL(f); // data:image/...;base64,...
+        });
+
+        btnImgDecode.addEventListener("click", () => {
+          try {
+            const raw = (imgBase64Input.value || "").trim();
+            if (!raw) throw new Error("วาง Base64 หรือ Data URL ก่อน");
+
+            let dataUrl = raw;
+
+            if (!isDataUrl(raw)) {
+              // If it's bare base64, validate and guess MIME from magic bytes if possible
+              const b64 = raw.replace(/\s+/g, "");
+              if (!looksLikeBase64(b64))
+                throw new Error("ไม่ใช่ Base64 ที่ถูกต้อง");
+              // quick magic-byte based MIME guess (best effort)
+              const head = atob(b64.slice(0, 24)); // decode small chunk
+              let mime = "image/png";
+              if (head.startsWith("\xFF\xD8\xFF")) mime = "image/jpeg";
+              else if (head.startsWith("GIF8")) mime = "image/gif";
+              else if (head.startsWith("\x89PNG")) mime = "image/png";
+              else if (head.startsWith("RIFF") && head.includes("WEBP"))
+                mime = "image/webp";
+              dataUrl = toDataUrlFromBareBase64(b64, mime);
+            }
+
+            // Preview
+            setPreviewSrc(dataUrl);
+            imgOutput.value = dataUrl;
+            imgStatus.textContent = `Decoded • ${dataUrl.length} chars`;
+
+            // Create blob URL for download
+            const blob = dataUrlToBlob(dataUrl);
+            if (lastDecodedBlobUrl) URL.revokeObjectURL(lastDecodedBlobUrl);
+            lastDecodedBlobUrl = URL.createObjectURL(blob);
+
+            showToast("Decoded!");
+          } catch (e) {
+            imgStatus.textContent = "Error";
+            showToast(e.message || "Decode error");
+          }
+        });
+
+        btnImgCopy.addEventListener("click", async () => {
+          const v = imgOutput.value;
+          if (!v) return showToast("Nothing to copy");
+          try {
+            await navigator.clipboard.writeText(v);
+            showToast("Copied!");
+          } catch {
+            imgOutput.focus();
+            imgOutput.select();
+            document.execCommand("copy");
+            showToast("Copied (fallback)!");
+          }
+        });
+
+        btnImgDownload.addEventListener("click", () => {
+          try {
+            // Prefer decoded blob url, else attempt from output if it is a data url
+            let href = lastDecodedBlobUrl;
+            let filename = "decoded-image";
+
+            const out = (imgOutput.value || "").trim();
+            if (!href) {
+              if (!isDataUrl(out))
+                throw new Error("ยังไม่มีภาพที่ decode ให้ดาวน์โหลด");
+              const blob = dataUrlToBlob(out);
+              href = URL.createObjectURL(blob);
+              lastDecodedBlobUrl = href;
+            }
+
+            // extension from mime
+            let ext = "png";
+            if (isDataUrl(out)) {
+              const mime =
+                (out.match(/^data:(image\/.*?);base64,/) || [])[1] ||
+                "image/png";
+              if (mime.includes("jpeg")) ext = "jpg";
+              else if (mime.includes("gif")) ext = "gif";
+              else if (mime.includes("webp")) ext = "webp";
+              else if (mime.includes("png")) ext = "png";
+            }
+            filename += "." + ext;
+
+            const a = document.createElement("a");
+            a.href = href;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+
+            showToast("Downloading...");
+          } catch (e) {
+            showToast(e.message || "Download error");
+          }
+        });
+
+        btnImgClear.addEventListener("click", () => {
+          imgFile.value = "";
+          imgBase64Input.value = "";
+          imgOutput.value = "";
+          imgInfo.textContent = "—";
+          imgStatus.textContent = "—";
+          clearPreview();
+          showToast("Cleared");
+        });
+
+        // ---------- Tabs logic ----------
+        function setMode(mode) {
+          const isText = mode === "text";
+          tabText.classList.toggle("active", isText);
+          tabImage.classList.toggle("active", !isText);
+          panelText.classList.toggle("hidden", !isText);
+          panelImage.classList.toggle("hidden", isText);
+        }
+
+        tabText.addEventListener("click", () => setMode("text"));
+        tabImage.addEventListener("click", () => setMode("image"));
+
+        // Init
+        textStatus.textContent = "—";
+        imgInfo.textContent = "—";
+        imgStatus.textContent = "—";
+      })();
+    </script>
+  </body>
+</html>
