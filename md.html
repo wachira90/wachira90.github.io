@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>wachira90.github.io markdown</title>
+</head>
+<body>
+<div id="content"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  const md = `
+  # Hello Markdown
+
+  - Item 1
+  - Item 2
+
+  **Bold Text**
+  `;
+
+  document.getElementById('content').innerHTML = marked.parse(md);
+</script>
+</body>
+</html>
