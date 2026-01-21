@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>wachira90.github.io git command</title>
+        <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="css/uikit.docs.min.css">
+         <script src="js/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/uikit.min.js"></script>
+         <script src="js/sticky.js"></script>
+    
+  </head>
+  <body>
+    <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
+      <div id="content"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      const md = `
+# การย้อน version code
+
+## ตัวอย่าง 
+
+การย้อน branch develop กลับไปที่สถานะของ tag dev1.2.0 สามารถทำได้โดยใช้คำสั่ง **`git reset --hard`** ครับ แต่มีข้อควรระวังคือการกระทำนี้จะลบ commit ที่เกิดขึ้นหลังจาก tag นั้นทิ้งไปทั้งหมด
+
+นี่คือขั้นตอนและคำสั่งที่ต้องใช้ครับ:
+
+### 1. สำรองข้อมูล (แนะนำ)
+
+ก่อนจะทำการ reset ที่มีความเสี่ยง แนะนำให้สร้าง branch สำรองไว้ก่อน เผื่อกรณีที่ต้องการกลับมาดู code ที่เขียนไปแล้ว
+
+bash
+git branch develop-backup
+
+
+### 2. ทำการ Reset Branch
+
+ตรวจสอบให้แน่ใจว่าอยู่ที่ branch develop แล้วใช้คำสั่ง reset ไปที่ชื่อ tag:
+
+bash
+git checkout develop
+git reset --hard dev1.2.0
+
+
+คำสั่งนี้จะทำให้ develop ในเครื่องของเราย้อนกลับไปเหมือน dev1.2.0 ทุกประการ
+
+### 3. อัปเดตขึ้น Server (Force Push)
+
+เนื่องจากประวัติในเครื่องของเรา "เก่ากว่า" บน server (เพราะเราเพิ่งย้อนเวลาไป) การ push ปกติจะถูกปฏิเสธ คุณต้องใช้การ **Force Push** เพื่อทับข้อมูลบน server:
+
+bash
+git push -f origin develop
+
+
+### ข้อควรระวัง
+
+* **ข้อมูลหาย:** commit หลังจาก dev1.2.0 จะหายไปจาก branch develop ทันที (แต่ถ้าทำ branch backup ไว้ในข้อ 1 ก็ยังไปตามดูได้)
+* **กระทบทีม:** หากมีคนอื่นกำลังทำงานบน branch develop อยู่ การ force push จะทำให้ประวัติ Git ของเพื่อนในทีมรวนได้ ควรแจ้งทีมก่อนดำเนินการ
+  `;
+
+      document.getElementById("content").innerHTML = marked.parse(md);
+    </script>
+  </body>
+</html>
