@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Markdown Renderer</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div id="content">Loading content...</div>
+
+    <script>
+        // 2. Fetch the .md file
+        fetch('md.md')
+            .then(response => response.text())
+            .then(text => {
+                // 3. Convert Markdown to HTML and inject into the page
+                document.getElementById('content').innerHTML = marked.parse(text);
+            });
+    </script>
+</body>
+</html>

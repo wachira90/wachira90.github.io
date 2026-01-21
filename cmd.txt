@@ -2,3 +2,13 @@
 wachira90.github.io
 
 <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+
+#docker
+
+# FOR BUILD WITH INTERNET
+docker run --rm -it --network=host --entrypoint bash public.ecr.aws/docker/library/python:3.12-slim-bullseye
+
+# FOR RUN COMMAND
+docker run --rm -it -p 8911:8911 --entrypoint bash public.ecr.aws/docker/library/python:3.12-slim-bullseye
+
+
