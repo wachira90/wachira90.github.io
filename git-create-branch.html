@@ -31,7 +31,7 @@
 
         ## สร้าง branch **develop** จาก **main**
 
-        ```bash
+        ``bash
         # ดึง branch ล่าสุดก่อน
         git fetch origin
 
@@ -46,13 +46,13 @@
 
         # push develop ขึ้น GitLab
         git push -u origin develop
-        ```
+        ``
 
         ---
 
-        ## 2️⃣ สร้าง branch `uat` จาก `develop`
+        ## 2️⃣ สร้าง branch 'uat' จาก 'develop'
 
-        ```bash
+        ``bash
         # checkout ไปที่ develop
         git checkout develop
 
@@ -64,13 +64,13 @@
 
         # push uat ขึ้น GitLab
         git push -u origin uat
-        ```
+        ``
 
         ---
 
-        ## 3️⃣ สร้าง branch `production` จาก `uat`
+        ## 3️⃣ สร้าง branch 'production' จาก 'uat'
 
-        ```bash
+        ``bash
         # checkout ไปที่ uat
         git checkout uat
 
@@ -82,26 +82,26 @@
 
         # push production ขึ้น GitLab
         git push -u origin production
-        ```
+        ``
 
         ---
 
         ## 🔎 ตรวจสอบ branch ทั้งหมด
 
-        ```bash
+        ``bash
         git branch -a
-        ```
+        ``
 
         ---
 
         ### 📝 สรุปลำดับการแตก branch
 
-        ```
+        ``
         main
         └── develop
               └── uat
                   └── production
-        ```
+        ``
 
         === 
 
@@ -109,7 +109,7 @@
 
         ทำใน **GitLab UI** (เหมาะสุด เพราะ “ห้าม push ตรง” คุมได้ที่ server)
 
-        ## วิธีตั้ง Protected Branch: `uat` และ `production`
+        ## วิธีตั้ง Protected Branch: 'uat' และ 'production'
 
         1. เข้าโปรเจกต์ใน GitLab
 
@@ -117,18 +117,18 @@
 
         3. เลื่อนหา section **Protected branches**
 
-        4. ที่ช่อง **Protect a branch** เลือก `uat` แล้วกด **Protect**
+        4. ที่ช่อง **Protect a branch** เลือก 'uat' แล้วกด **Protect**
 
         5. ตั้งค่าแบบนี้:
 
-          * **Allowed to push** = `No one`
-          * **Allowed to merge** = `Maintainers` (หรือ `Developers + Maintainers` ตามนโยบายทีม)
+          * **Allowed to push** = 'No one'
+          * **Allowed to merge** = 'Maintainers' (หรือ 'Developers + Maintainers' ตามนโยบายทีม)
 
-        6. ทำซ้ำกับ branch `production`
+        6. ทำซ้ำกับ branch 'production'
 
         ผลลัพธ์:
 
-        * ❌ ไม่มีใคร `git push` ตรงเข้า `uat` / `production` ได้
+        * ❌ ไม่มีใคร 'git push' ตรงเข้า 'uat' / 'production' ได้
         * ✅ ยัง merge เข้าได้ผ่าน Merge Request (MR) ตามสิทธิ์ที่กำหนด
 
         ---
@@ -161,9 +161,9 @@
 
         ลองจากเครื่อง dev:
 
-        ```bash
+        ``bash
         git push origin uat
-        ```
+        ``
 
         ควรโดน GitLab ปฏิเสธทันที (permission denied / not allowed)`;
 
