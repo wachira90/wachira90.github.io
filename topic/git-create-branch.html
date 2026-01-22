@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>wachira90.github.io git git create branch</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/uikit.min.css">
+
+</head>
+
+<body>
+  <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
+    <div id="content">Loading content...</div>
+    <script src="/js/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      fetch("git-create-branch.md")
+        .then((response) => response.text())
+        .then((text) => {
+          document.getElementById("content").innerHTML = marked.parse(text);
+        });
+    </script>
+  </div>
+</body>
+
+</html>
