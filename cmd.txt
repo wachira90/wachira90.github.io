@@ -12,3 +12,44 @@ docker run --rm -it --network=host --entrypoint bash public.ecr.aws/docker/libra
 docker run --rm -it -p 8911:8911 --entrypoint bash public.ecr.aws/docker/library/python:3.12-slim-bullseye
 
 
+[
+  {
+    "id": 1,
+    "mylink": "0001.html",
+    "title": "test1234",
+    "note": "node for test1234"
+  },
+  {
+    "id": 2,
+    "mylink": "0002.html",
+    "title": "2-test1234",
+    "note": "node for 2-test1234"
+  },
+  {
+    "id": 3,
+    "mylink": "0003.html",
+    "title": "2-test1234",
+    "note": "node for 2-test1234"
+  }
+]
+
+
+
+
+<ul id="list"></ul>
+
+<script>
+fetch('data.json')
+  .then(res => res.json())
+  .then(data => {
+    const list = document.getElementById('list');
+
+    // show only first 2 items
+    data.slice(0, 2).forEach(item => {
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="${item.mylink}">${item.title}</a>`;
+      list.appendChild(li);
+    });
+  })
+  .catch(err => console.error(err));
+</script>

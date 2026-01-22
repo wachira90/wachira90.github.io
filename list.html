@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
+    <title>wachira90.github.io list</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/uikit.min.css"/>
+    <script src="js/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/uikit.min.js"></script>
+  </head>
+  <body>
+    <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
+      <h1>wachira90.github.io list</h1>
+      <ul id="list"></ul>
+    </div>
+    <script>
+      fetch("data/data.json")
+        .then((res) => res.json())
+        .then((data) => {
+          const list = document.getElementById("list");
+
+          // show only first 2 items
+          data.slice(0, 2).forEach((item) => {
+            const li = document.createElement("li");
+            li.innerHTML = `<a href="${item.mylink}">${item.title}</a>`;
+            list.appendChild(li);
+          });
+        })
+        .catch((err) => console.error(err));
+    </script>
+  </body>
+</html>
