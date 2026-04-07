@@ -1,28 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>QR Code Example</title>
-
-  <!-- QRCode.js CDN -->
+  <title>QR Code Generator</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      background: #f5f5f5;
+    }
+    h2 {
+      margin-bottom: 1.5rem;
+    }
+    .input-wrapper {
+      width: 100%;
+      max-width: 400px;
+    }
+    label {
+      display: block;
+      font-size: 14px;
+      color: #555;
+      margin-bottom: 6px;
+    }
+    input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 8px 12px;
+      font-size: 14px;
+      font-family: monospace;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      outline: none;
+    }
+    input[type="text"]:focus {
+      border-color: #888;
+    }
+    .char-count {
+      font-size: 12px;
+      color: #999;
+      text-align: right;
+      margin-top: 4px;
+    }
+    #qrcode {
+      margin-top: 1.5rem;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
 </head>
 <body>
 
-  <h2>QR Code Example</h2>
+  <h2>QR Code Generator</h2>
 
-  <!-- Container -->
+  <div class="input-wrapper">
+    <label for="qr-input">ข้อความหรือ URL</label>
+    <input
+      type="text"
+      id="qr-input"
+      placeholder="พิมพ์ข้อความ"
+      value="https://google.co.th"
+    />
+    <div class="char-count">
+      <span id="char-count">21</span> / 48
+    </div>
+  </div>
+
   <div id="qrcode"></div>
 
   <script>
-    // Generate QR Code
-    var qrcode = new QRCode(document.getElementById("qrcode"), {
-      text: "https://google.co.th",
+    var input = document.getElementById('qr-input');
+    var charCount = document.getElementById('char-count');
+    var container = document.getElementById('qrcode');
+
+    var qr = new QRCode(container, {
+      text: input.value,
       width: 200,
       height: 200,
       colorDark: "#000000",
       colorLight: "#ffffff",
       correctLevel: QRCode.CorrectLevel.H
+    });
+
+    input.addEventListener('keyup', function () {
+      var val = this.value.trim();
+      charCount.textContent = this.value.length;
+      container.innerHTML = '';
+      if (val.length === 0) return;
+      new QRCode(container, {
+        text: val,
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
     });
   </script>
 
