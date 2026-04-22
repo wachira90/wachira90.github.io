@@ -1,4 +1,4 @@
-# Daily Command for DevOps & Infrastructure
+Daily Command for DevOps & Infrastructure
 
 ---
 
@@ -8,8 +8,11 @@
 ```sh
 cat /dev/null > ~/.bash_history && history -c && exit
 
+#HTTP
 curl http://192.168.1.10 -H "Host: example.com"
 
+#HTTPS
+curl https://192.168.1.10 -H "Host: example.com" --insecure
 
 ```
 
