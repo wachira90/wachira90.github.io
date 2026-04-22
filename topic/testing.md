@@ -1,8 +1,8 @@
-Daily use command for DevOps & Infrastructure
+# Daily Command for DevOps & Infrastructure
 
 ---
 
-## Basic Command
+## basic command
 
 
 ```sh
@@ -19,6 +19,12 @@ curl http://192.168.1.10 -H "Host: example.com"
 #RESTART
 
 kubectl rollout -n develop restart deploy nginx
+
+kubectl rollout -n develop restart deployment --selector=app=nginx
+
+kubectl rollout -n develop restart deployment 
+
+kubectl rollout -n develop restart daemonset/<daemonset-name>
 
 #SET-IMAGES
 
@@ -53,7 +59,7 @@ kubectl scale -n develop deploy exchange-api --replicas=0
 kubectl scale -n develop deploy exchange-api --replicas=1
 ```
 
-## Basic Docker
+## basic docker
 
 ```sh
 docker run -itd --restart unless-stopped --name openai -p 8001:80  docker.io/wachira90/openai:getip-v1
