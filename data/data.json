@@ -16,5 +16,17 @@
     "mylink": "testing.html",
     "title": "Testing Command",
     "description": "for test Command"
+  },
+  {
+    "id": 4,
+    "mylink": "docker-stack.html",
+    "title": "Docker Stack",
+    "description": "Docker Stack"
+  },
+  {
+    "id": 5,
+    "mylink": "qr-code.html",
+    "title": "qr-code generator",
+    "description": "qr-code"
   }
 ]
