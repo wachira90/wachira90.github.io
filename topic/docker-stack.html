@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Daily Command DevOps & Infrastructure</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/uikit.min.css">
+  <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+  <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
+    <div id="content">Loading content...</div>
+    <script src="/js/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      fetch("docker-stack.md")
+        .then((response) => response.text())
+        .then((text) => {
+          document.getElementById("content").innerHTML = marked.parse(text);
+        });
+    </script>
+  </div>
+</body>
+
+</html>
