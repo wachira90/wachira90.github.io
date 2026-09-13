@@ -34,5 +34,11 @@
     "mylink": "git-create-branch.html",
     "title": "Git Command",
     "description": "รวมคำสั่ง Git สำหรับ branch, commit, merge, rebase, stash และแก้ conflict อย่างปลอดภัย"
+  },
+  {
+    "id": 7,
+    "mylink": "microk8s.html",
+    "title": "MicroK8s",
+    "description": "คู่มือติดตั้งและใช้งาน MicroK8s สำหรับทดลอง Kubernetes บนเครื่อง local หรือ lab"
   }
 ]

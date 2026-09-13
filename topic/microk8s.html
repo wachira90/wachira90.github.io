@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Markdown Renderer</title>
+  <title>MicroK8s Installation & Usage</title>
   <link rel="stylesheet" href="quick-commands.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/uikit.min.css">
   <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
@@ -11,13 +11,13 @@
 
 <body class="quick-page">
   <main class="quick-shell">
-    <nav class="quick-nav"><a href="../index.html">กลับไปยังหน้าหลัก</a><span class="quick-kicker">System Engineer FAQ</span></nav>
+    <nav class="quick-nav"><a href="../index.html">กลับไปยังหน้าหลัก</a><span class="quick-kicker">MicroK8s Installation & Usage</span></nav>
     <article class="quick-card quick-content" id="content"><p class="quick-loading">กำลังโหลดคู่มือ...</p></article>
     <script src="/js/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
-      fetch("faq.md")
+      fetch("microk8s.md")
         .then((response) => { if (!response.ok) throw new Error("โหลดคู่มือไม่สำเร็จ"); return response.text(); })
         .then((text) => {
           document.getElementById("content").innerHTML = marked.parse(text);
