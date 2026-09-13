@@ -4,11 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
-    <title>wachira90.github.io template</title>
+    <title>Docker Quick Commands</title>
+    <link rel="stylesheet" href="quick-commands.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/uikit.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/uikit.min.js"></script>
 </head>
-<body>
-    <h1>wachira90.github.io Docker</h1>
+<body class="quick-page">
+    <main class="quick-shell">
+        <nav class="quick-nav"><a href="../index.html">Quick Commands</a><span class="quick-kicker">Docker Reference</span></nav>
+        <article class="quick-card quick-content">
+            <h1>Docker Quick Commands</h1>
+            <p>รวมคำสั่งพื้นฐานสำหรับตรวจสอบและจัดการ Container อย่างรวดเร็ว</p>
+            <pre><code>docker ps
+docker ps -a
+docker images
+docker logs -f &lt;container&gt;
+docker exec -it &lt;container&gt; /bin/sh
+docker restart &lt;container&gt;</code></pre>
+            <p><strong>ข้อควรระวัง:</strong> ตรวจชื่อ Container และ environment ให้ถูกต้องก่อนสั่งลบหรือ restart บน Production</p>
+        </article>
+    </main>
 </body>
 </html>

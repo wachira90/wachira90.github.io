@@ -1,27 +1,30 @@
 <!doctype html>
-<html lang="en">
+<html lang="th">
 
 <head>
   <meta charset="UTF-8" />
   <title>Markdown Renderer</title>
+  <link rel="stylesheet" href="quick-commands.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/css/uikit.min.css">
   <link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon">
 </head>
 
-<body>
-  <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
-    <div id="content">Loading content...</div>
+<body class="quick-page">
+  <main class="quick-shell">
+    <nav class="quick-nav"><a href="../index.html">Quick Commands</a><span class="quick-kicker">System Engineer FAQ</span></nav>
+    <article class="quick-card quick-content" id="content"><p class="quick-loading">กำลังโหลดคู่มือ...</p></article>
     <script src="/js/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
-      fetch("render.md")
-        .then((response) => response.text())
+      fetch("faq.md")
+        .then((response) => { if (!response.ok) throw new Error("โหลดคู่มือไม่สำเร็จ"); return response.text(); })
         .then((text) => {
           document.getElementById("content").innerHTML = marked.parse(text);
-        });
+        })
+        .catch((error) => { document.getElementById("content").innerHTML = `<p class="quick-error">${error.message}</p>`; });
     </script>
-  </div>
+  </main>
 </body>
 
 </html>

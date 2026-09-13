@@ -1,3 +1,7 @@
+# Docker Stack Quick Workshop
+
+คู่มือด่วนสำหรับ Deploy และตรวจสอบ Monitoring Stack บน Docker Swarm เหมาะสำหรับ System Engineer ที่ดูแลหลาย service บน environment เดียวกัน
+
 นี่คือโครงร่างเนื้อหาสำหรับนำไปใช้สอนเรื่อง **Docker Stack** พร้อมกับ Workshop ที่เน้นการนำไปใช้งานจริงในระดับ Production โดยใช้ตัวอย่างของระบบ Monitoring ซึ่งเป็นส่วนสำคัญของงาน Infrastructure ครับ
 
 ---

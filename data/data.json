@@ -3,30 +3,30 @@
     "id": 1,
     "mylink": "base64.html",
     "title": "Base64 ENC/DEC",
-    "description": "Base64 ENC/DEC no out side"
+    "description": "เข้ารหัสและถอดรหัสข้อความหรือรูปภาพแบบ Base64 ภายในเครื่อง"
   },
   {
     "id": 2,
     "mylink": "genpassword.html",
     "title": "GeneratePassword",
-    "description": "node for 2-test1234"
+    "description": "สร้างรหัสผ่านแบบสุ่มด้วย Web Crypto พร้อมตรวจความแข็งแรง"
   },
   {
     "id": 3,
     "mylink": "testing.html",
     "title": "Testing Command",
-    "description": "for test Command"
+    "description": "คำสั่งตรวจสอบ Kubernetes, Container และระบบที่ใช้ตอนแก้ incident"
   },
   {
     "id": 4,
     "mylink": "docker-stack.html",
     "title": "Docker Stack",
-    "description": "Docker Stack"
+    "description": "Workshop Deploy Prometheus และ Grafana ด้วย Docker Swarm Stack"
   },
   {
     "id": 5,
     "mylink": "qr-code.html",
     "title": "qr-code generator",
-    "description": "qr-code"
+    "description": "สร้าง QR Code จากข้อความหรือ URL พร้อมดูตัวนับอักขระ"
   }
 ]

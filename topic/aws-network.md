@@ -1,3 +1,7 @@
+# AWS Network Quick Reference
+
+คู่มืออ่าน Resource ID และตรวจสอบโครงสร้าง Network ใน AWS สำหรับงานประจำวันของ System Engineer
+
 ใน AWS จะมี **prefix ของชื่อ resource** หลายแบบที่เราเห็นบ่อย ๆ (เช่น `vpc-*`, `rtb-*`) ซึ่งจริง ๆ แล้วมันคือ **รหัสอัตโนมัติ (ID prefix)** ที่ AWS ใช้บอกชนิดของ resource นั้น ๆ
 ด้านล่างคือสรุป **AWS Network / Infrastructure prefixes ที่พบบ่อย** พร้อมหน้าที่ของแต่ละตัว
 

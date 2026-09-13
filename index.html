@@ -9,11 +9,22 @@
     <!-- <link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon.png"> -->
     <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.5/js/uikit.min.css"> -->
     <link rel="stylesheet" href="css/uikit.docs.min.css">
+    <link rel="stylesheet" href="topic/quick-commands.css">
+    <style>
+        body.quick-page { display: block; padding: 24px; }
+        body.quick-page .uk-container { width: min(980px, 100%); margin: 0 auto; }
+        body.quick-page .uk-navbar, body.quick-page .uk-panel-box { border: 1px solid var(--border); border-radius: 12px; background: rgba(255,255,255,.04); }
+        body.quick-page .uk-navbar { padding: 0 10px; }
+        body.quick-page .uk-panel-box { color: #c8d4ec; box-shadow: 0 8px 20px rgba(0,0,0,.2); }
+        body.quick-page .uk-panel-title a, body.quick-page .uk-navbar a { color: var(--accent); }
+        body.quick-page .uk-text-large { color: var(--text); font-size: 22px; font-weight: 700; }
+        body.quick-page h3 { color: var(--muted); }
+    </style>
 
 
 </head>
 
-<body>
+<body class="quick-page">
 
     <div class="uk-container uk-container-center uk-margin-top uk-margin-large-bottom">
 
@@ -21,7 +32,7 @@
             <a class="uk-navbar-brand uk-hidden-small" href="/">DevOps & SRE</a>
             <ul class="uk-navbar-nav uk-hidden-small">
                 <li>
-                    <a href="/topic/git.html">Git Command</a>
+                    <a href="/topic/git-create-branch.html">Git Command</a>
                 </li>
                 <li>
                     <a href="/topic/genpassword.html">GeneratePassword</a>
@@ -34,10 +45,10 @@
                     <a href="/topic/testing.html">Testing</a>
                 </li>
                 <li>
-                    <a href="/topic/aws.html">AWS</a>
+                    <a href="/topic/aws-network.html">AWS Network</a>
                 </li>
                 <li>
-                    <a href="/topic/logs.html">Logs</a>
+                    <a href="/topic/testing.html">Logs & Testing</a>
                 </li>
                 <li>
                     <a href="/topic/faq.html">FAQ</a>
@@ -50,7 +61,8 @@
         <div class="uk-grid" data-uk-grid-margin>
             <div class="uk-width-1-1">
                 <!-- <h1 class="uk-heading-large">DevOps Engineer & SRE Engineer</h1> -->
-                <p class="uk-text-large">DevOps Engineer & SRE Engineer Command</p>
+                <p class="uk-text-large">System Engineer Quick Commands</p>
+                <p style="color:var(--muted);margin-top:0">คลังคำสั่งและคู่มือสั้น ๆ สำหรับตรวจสอบ แก้ปัญหา และดูแลระบบในแต่ละวัน</p>
             </div>
         </div>
 

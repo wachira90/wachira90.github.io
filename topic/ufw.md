@@ -1,4 +1,8 @@
-# UFW COMMAND
+# UFW Firewall Quick Commands
+
+คำสั่งด่วนสำหรับตรวจสอบและตั้งค่าไฟร์วอลล์ Ubuntu ด้วย UFW
+
+> ควรเปิด session สำรองหรือ console access ไว้ก่อนแก้กฎ SSH เพื่อป้องกันการ lock ตัวเองออกจากเครื่อง
 
 ```sh
 ufw enable

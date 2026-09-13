@@ -1,4 +1,6 @@
-# Gitlab command create branch
+# GitLab Merge & Protected Branches
+
+คู่มือด่วนสำหรับสร้าง branch ตามลำดับ และบังคับให้ `uat` กับ `production` เปลี่ยนแปลงผ่าน Merge Request
 
 ```
 สร้าง branch "develop" โดยแตกออกจาก branch "main" 

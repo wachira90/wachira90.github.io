@@ -1,4 +1,8 @@
-Daily Command for DevOps & Infrastructure
+# Testing & Kubernetes Quick Commands
+
+ชุดคำสั่งด่วนสำหรับตรวจสอบ Deployment, Pod, Logs และ Container ระหว่างพัฒนา ทดสอบ และแก้ปัญหา Production
+
+> เปลี่ยน `develop` และชื่อ service ให้ตรงกับ environment จริงก่อนรัน
 
 ---
 

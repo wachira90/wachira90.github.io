@@ -1,4 +1,6 @@
-# Gitlab command create branch
+# GitLab Branch Workflow
+
+ขั้นตอนด่วนสำหรับสร้างสายงาน `main → develop → uat → production` และเผยแพร่ branch ไปยัง GitLab อย่างเป็นลำดับ
 
 ```
 - สร้าง branch "develop" โดยแตกออกจาก branch "main" 
