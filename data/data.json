@@ -40,5 +40,11 @@
     "mylink": "microk8s.html",
     "title": "MicroK8s",
     "description": "คู่มือติดตั้งและใช้งาน MicroK8s สำหรับทดลอง Kubernetes บนเครื่อง local หรือ lab"
+  },
+  {
+    "id": 8,
+    "mylink": "rancher-docker.html",
+    "title": "Rancher on Docker",
+    "description": "วิธีติดตั้ง Rancher Server บน Docker และคำสั่ง join node สำหรับสร้าง Kubernetes cluster"
   }
 ]
