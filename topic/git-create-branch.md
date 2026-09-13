@@ -44,7 +44,7 @@ git push -u origin develop
 
 ## 2️⃣ สร้าง branch 'uat' จาก 'develop'
 
-``
+```bash
 # checkout ไปที่ develop
 git checkout develop
 
@@ -56,13 +56,13 @@ git checkout -b uat
 
 # push uat ขึ้น GitLab
 git push -u origin uat
-``
+```
 
 ---
 
 ## 3️⃣ สร้าง branch 'production' จาก 'uat'
 
-``
+```bash
 # checkout ไปที่ uat
 git checkout uat
 
@@ -74,26 +74,117 @@ git checkout -b production
 
 # push production ขึ้น GitLab
 git push -u origin production
-``
+```
 
 ---
 
 ## 🔎 ตรวจสอบ branch ทั้งหมด
 
-``
+```bash
 git branch -a
-``
+```
+
+## คำสั่ง Git ที่ใช้ประจำ
+
+### ตรวจสอบสถานะและประวัติ
+
+```bash
+# ดูไฟล์ที่แก้ไข ไฟล์ที่รอ commit และ branch ปัจจุบัน
+git status
+
+# ดูประวัติแบบอ่านง่าย
+git log --oneline --decorate --graph --all
+
+# ดูรายละเอียดการเปลี่ยนแปลงที่ยังไม่ stage
+git diff
+
+# ดูรายละเอียดที่ stage แล้ว
+git diff --staged
+```
+
+### สร้าง commit และส่งขึ้น remote
+
+```bash
+# เพิ่มไฟล์ที่ต้องการเข้า staging area
+git add path/to/file
+
+# เพิ่มทุกไฟล์ที่แก้ไขในโฟลเดอร์ปัจจุบัน
+git add .
+
+# สร้าง commit ที่อธิบายการเปลี่ยนแปลงให้ชัดเจน
+git commit -m "เพิ่ม health check สำหรับ service"
+
+# ส่ง branch ปัจจุบันขึ้น remote หลังตั้ง upstream แล้ว
+git push
+```
+
+ก่อน `git add .` ควรตรวจ `git status` และไม่ควร commit secret, `.env`, private key หรือไฟล์ build ที่ไม่จำเป็น
+
+### สร้าง branch งานใหม่จาก branch ล่าสุด
+
+```bash
+git switch develop
+git pull --ff-only origin develop
+git switch -c feature/health-check
+```
+
+ใช้ชื่อ branch ที่สื่อความหมาย เช่น `feature/...`, `fix/...` หรือ `hotfix/...` และทำงานบน branch ของตัวเองแทนการแก้ `main`, `uat` หรือ `production` โดยตรง
+
+### อัปเดต branch งานให้ตามต้นทาง
+
+```bash
+git fetch origin
+git switch feature/health-check
+git rebase origin/develop
+```
+
+ถ้าเกิด conflict ให้แก้ไฟล์ แล้วตรวจและทำต่อ:
+
+```bash
+git status
+git add path/to/resolved-file
+git rebase --continue
+```
+
+ยกเลิก rebase ที่กำลังทำอยู่ด้วย `git rebase --abort` หากยังไม่พร้อมแก้ conflict
+
+### เก็บงานชั่วคราวด้วย stash
+
+```bash
+git stash push -m "งาน health check ชั่วคราว"
+git switch develop
+git pull --ff-only origin develop
+git switch feature/health-check
+git stash pop
+```
+
+ตรวจรายการ stash ด้วย `git stash list` และอย่าใช้ `git stash pop` ถ้ายังไม่ได้ตรวจว่า branch ปลายทางไม่มีการเปลี่ยนแปลงที่ชนกัน
+
+### ยกเลิกการเปลี่ยนแปลงอย่างปลอดภัย
+
+```bash
+# ยกเลิกการแก้ไขในไฟล์ที่ยังไม่ได้ stage
+git restore path/to/file
+
+# นำไฟล์ออกจาก staging แต่เก็บการแก้ไขไว้
+git restore --staged path/to/file
+
+# สร้าง commit ใหม่เพื่อยกเลิก commit เดิม เหมาะกับ shared branch
+git revert <commit-sha>
+```
+
+`git restore` อาจทำให้การแก้ไขที่ยังไม่ commit หายไป ส่วน `git revert` ปลอดภัยกว่าสำหรับ branch ที่แชร์กับทีม เพราะไม่แก้ประวัติเดิม
 
 ---
 
 ### 📝 สรุปลำดับการแตก branch
 
-``
+```text
 main
 └── develop
       └── uat
           └── production
-``
+```
 
 === 
 
@@ -153,8 +244,8 @@ main
 
 ลองจากเครื่อง dev:
 
-``
+```bash
 git push origin uat
-``
+```
 
 ควรโดน GitLab ปฏิเสธทันที (permission denied / not allowed)

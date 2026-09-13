@@ -75,6 +75,79 @@ git push -u origin production
 git branch -a
 ```
 
+## Workflow ประจำวัน: แก้ไขและเปิด Merge Request
+
+```bash
+# เริ่มจาก branch ต้นทางที่อัปเดตแล้ว
+git switch develop
+git pull --ff-only origin develop
+
+# สร้าง branch สำหรับงาน
+git switch -c fix/timeout-config
+
+# ตรวจสอบและบันทึกการเปลี่ยนแปลง
+git status
+git diff
+git add path/to/file
+git commit -m "แก้ค่า timeout ของ service"
+
+# ส่ง branch ขึ้น GitLab
+git push -u origin fix/timeout-config
+```
+
+จากนั้นเปิด Merge Request ไปยัง `develop` และตรวจ pipeline, review และไฟล์ที่เปลี่ยนแปลงก่อน merge
+
+## ตรวจสอบความแตกต่างก่อน merge
+
+```bash
+# ดูว่า branch งานต่างจาก develop อย่างไร
+git fetch origin
+git diff origin/develop...HEAD
+
+# ดู commit ที่มีเฉพาะใน branch งาน
+git log --oneline origin/develop..HEAD
+```
+
+ถ้า branch ต้นทางมี commit ใหม่ ให้ sync ก่อนส่ง MR:
+
+```bash
+git switch fix/timeout-config
+git rebase origin/develop
+git push --force-with-lease
+```
+
+`--force-with-lease` ปลอดภัยกว่า `--force` เพราะ Git จะปฏิเสธเมื่อ remote มีการเปลี่ยนแปลงที่เราไม่เคย fetch มาก่อน
+
+## Merge แบบ local และการแก้ conflict
+
+```bash
+git switch develop
+git pull --ff-only origin develop
+git merge --no-ff fix/timeout-config
+```
+
+เมื่อเกิด conflict ให้เปิดไฟล์ที่ Git แจ้ง แก้ส่วนที่มีเครื่องหมาย conflict แล้วรัน:
+
+```bash
+git status
+git add path/to/resolved-file
+git commit
+```
+
+ยกเลิก merge ที่ยังไม่เสร็จด้วย `git merge --abort` และตรวจ `git status` ทุกครั้งหลังแก้ conflict
+
+## ยกเลิก commit หรือการ merge
+
+```bash
+# ยกเลิก commit ที่อยู่บน shared branch โดยสร้าง commit ใหม่
+git revert <commit-sha>
+
+# ยกเลิก merge ที่กำลังค้างอยู่ในเครื่อง
+git merge --abort
+```
+
+หลีกเลี่ยง `git reset --hard` และ force push บน `main`, `uat` หรือ `production` เพราะอาจทำให้ commit ของผู้อื่นหายหรือทำให้ clone ของทีมตามประวัติไม่ทัน
+
 ---
 
 ### 📝 สรุปลำดับการแตก branch
